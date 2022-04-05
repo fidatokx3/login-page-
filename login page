@@ -1,0 +1,33 @@
+<?php
+session_start();
+if(isset($_POST['submit'])) {
+require_once('config.php');
+  $connection = $link;
+  $myusername = mysqli_real_escape_string($connection,$_POST['username']);
+  $mypassword = mysqli_real_escape_string($connection,$_POST['password']);
+  $sql = "SELECT `id` FROM login_system WHERE `user`= '{$myusername}' and `password` = '{$mypassword}' ";
+  $result = mysqli_query($connection,$sql);
+  $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+  $active = $row['active'];
+  $count = mysqli_num_rows($result);
+  // If result matched $myusername and $mypassword, table row must be 1 row
+  if($count == 1) {
+    $_SESSION['login_user'] = $myusername;
+    header("location: home2.php");
+  }else {
+    echo "<script>alert('Your Login Name or Password is invalid');</script>";
+  }
+}
+?>
+  <form  action="#" method="POST">
+ <div id="form1" class="header"> E-mail or User name<br>
+        <input type="mail" name="username" value="" placeholder="Email"/>
+        <div id="form2" class="header"> password <br>
+          <input type="password" name="password" value="" placeholder="password"/><br>
+          forgett password</div>
+        </div>
+
+        <input type="submit" class="submit1" name="submit" value="submit"/>
+
+        </div>
+          </form>
